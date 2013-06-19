@@ -21,10 +21,10 @@ class Profile(Base):
     _biography_locator = (By.ID, 'bio')
     _skills_locator = (By.ID, 'skills')
     _languages_locator = (By.ID, 'languages')
-    _location_locator = (By.XPATH, '//dt[.="Location"]/following-sibling::dd')
-    _city_locator = (By.CSS_SELECTOR, '#location > a:nth-child(2)')
-    _region_locator = (By.CSS_SELECTOR, '#location > a:nth-child(3)')
-    _country_locator = (By.CSS_SELECTOR, '#location > a:nth-child(4)')
+    _location_locator = (By.CSS_SELECTOR, '.location')
+    _city_locator = (By.CSS_SELECTOR, '.location > a:nth-child(1)')
+    _region_locator = (By.CSS_SELECTOR, '.location > a:nth-child(2)')
+    _country_locator = (By.CSS_SELECTOR, '.location > a:nth-child(3)')
 
     @property
     def name(self):

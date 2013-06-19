@@ -25,6 +25,12 @@ class EditProfile(Base):
     _groups_field_locator = (By.CSS_SELECTOR, '#id_groups + ul input')
     _skills_field_locator = (By.CSS_SELECTOR, '#id_skills + ul input')
 
+    _username_field_locator = (By.ID, 'id_username')
+    _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
+    _delete_profile_button_locator = (By.CSS_SELECTOR, '.delete')
+    _browserid_link_locator = (By.CSS_SELECTOR, '#account div.controls > span > a')
+    _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
+
     def click_update_button(self):
         self.selenium.find_element(*self._update_button_locator).click()
         return Profile(self.testsetup)
@@ -55,23 +61,6 @@ class EditProfile(Base):
         element = self.selenium.send_keys(*self._skill_field_locator)
         element.send_keys(skill_name)
 
-
-class VouchesAndInvitesTab(EditProfile):
-
-    _voucher_name_locator = (By.CSS_SELECTOR, '#vouches .vouched')
-
-    @property
-    def vouched_by(self):
-        return self.selenium.find_element(*self._voucher_name_locator).text
-
-
-class AccountTab(EditProfile):
-
-    _username_field_locator = (By.ID, 'id_username')
-    _browserid_mail_locator = (By.CSS_SELECTOR, '.control-group:nth-of-type(2) .label-text')
-    _delete_profile_button_locator = (By.CSS_SELECTOR, '.btn.btn-danger')
-    _browserid_link_locator = (By.CSS_SELECTOR, '#account div.controls > span > a')
-
     @property
     def username(self):
         return self.selenium.find_element(*self._username_field_locator).text
@@ -88,3 +77,7 @@ class AccountTab(EditProfile):
         self.selenium.find_element(*self._delete_profile_button_locator).click()
         from pages.confirm_profile_delete import ConfirmProfileDelete
         return ConfirmProfileDelete(self.testsetup)
+
+    @property
+    def vouched_by(self):
+        return self.selenium.find_element(*self._voucher_name_locator).text

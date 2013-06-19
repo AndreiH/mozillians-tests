@@ -19,10 +19,8 @@ class TestProfile(BaseTest):
     def test_profile_deletion_confirmation(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        profile_page = home_page.header.click_view_profile_menu_item()
-        edit_profile_page = profile_page.click_edit_my_profile_button()
-        account_tab = edit_profile_page.go_to_tab("account")
-        confirm_profile_delete_page = account_tab.click_delete_profile_button()
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        confirm_profile_delete_page = edit_profile_page.click_delete_profile_button()
         Assert.true(confirm_profile_delete_page.is_csrf_token_present)
         Assert.true(confirm_profile_delete_page.is_confirm_text_present)
         Assert.true(confirm_profile_delete_page.is_cancel_button_present)
@@ -52,13 +50,12 @@ class TestProfile(BaseTest):
         Assert.equal(website, new_website)
 
     @pytest.mark.nondestructive
+    @pytest.mark.xfail(reason="This is no longer applicable, browserid link not present in edit profile page")
     def test_browserid_link_present(self, mozwebqa):
         home_page = Home(mozwebqa)
         home_page.login()
-        profile_page = home_page.header.click_view_profile_menu_item()
-        edit_profile_page = profile_page.click_edit_my_profile_button()
-        account_tab = edit_profile_page.go_to_tab("account")
-        Assert.true(account_tab.is_browserid_link_present)
+        edit_profile_page = home_page.header.click_edit_profile_menu_item()
+        Assert.true(edit_profile_page.is_browserid_link_present)
 
     @pytest.mark.xfail(reason="Bug 797790 - Create Your Profile page privacy policy error message is ambiguous")
     def test_creating_profile_without_checking_privacy_policy_checkbox(self, mozwebqa):
